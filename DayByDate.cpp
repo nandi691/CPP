@@ -1,4 +1,5 @@
 #include<iostream>
+
 using namespace std;
 
 int day_of_week(int y, int m, int d)
