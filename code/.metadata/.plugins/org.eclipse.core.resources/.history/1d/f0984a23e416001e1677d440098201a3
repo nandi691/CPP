@@ -1,0 +1,8 @@
+/*
+ * Dynamic array
+ * Grows automatically
+ * Efficient for addition/removal at end
+ * Provides random access
+ * No good for insertion or deletion
+ *
+ */

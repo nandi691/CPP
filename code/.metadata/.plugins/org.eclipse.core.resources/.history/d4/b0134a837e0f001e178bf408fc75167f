@@ -1,0 +1,50 @@
+#include "Integer.h"
+#include <iostream>
+
+
+Integer::Integer(){
+	std::cout<<"Integer()"<<std::endl;
+	m_pInt = new int(0);
+}
+
+Integer::Integer(int value){
+	std::cout<<"Integer(int)"<<std::endl;
+	m_pInt = new int(value);
+}
+
+
+Integer::Integer(const Integer &obj){ //Copy constructor
+	std::cout<<"Integer(const Integer &obj)"<<std::endl;
+	this->m_pInt = new int(*obj.m_pInt); //Deep Copy
+}
+
+
+/*
+ * Rule of 3
+ * Destructor
+ * Copy Constructor
+ * Copy Assignment operator
+ *
+ * If not implemented it may lead to memory leak or shallow copy
+ */
+Integer::~Integer(){
+	std::cout<<"~Integer()"<<std::endl;
+	delete m_pInt;
+	m_pInt = NULL;
+}
+
+int Integer::GetValue() const{
+	return *m_pInt;
+}
+
+void Integer::SetValue(int value){
+	*m_pInt = value;
+}
+
+int main(){
+	Integer i(7);
+	Integer i2(i); //Copy constructor is synthesized by compiler, but it will crash due to shallow copy
+	//We must write the implementation of copy constructor and assignment operator
+	std::cout<<i.GetValue()<<std::endl;
+	return 0;
+}

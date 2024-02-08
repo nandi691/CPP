@@ -1,0 +1,28 @@
+#include <iostream>
+
+using namespace std;
+
+//Function to find maximum
+/*int Max(int x, int y)
+{
+	return x >y ? x:y;
+}
+//Function can be overloaded every time
+float Max(float x, float y)
+{
+	return x >y ? x:y;
+}*/
+
+template <typename T>
+T Max(T x,T y){
+	cout<<typeid(T).name()<<endl;
+	return x >y ? x:y;
+}
+
+int main()
+{
+	//Max(3,4.3f); // We will get compilation error as it is combination of int and float
+	Max(static_cast<float>(3),4.3f); //One solution of using static cast
+	Max<double>(3,6.4);//Specify the type of argument
+	return 0;
+}

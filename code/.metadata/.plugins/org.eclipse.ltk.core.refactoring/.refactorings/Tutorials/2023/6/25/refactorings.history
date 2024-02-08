@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;Tutorials/CPP/Templates/FunctionTemplates.cpp&apos; to &apos;FindMax.cpp&apos;" description="Rename resource &apos;FunctionTemplates.cpp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="CPP/Templates/FunctionTemplates.cpp" name="FindMax.cpp" stamp="1687221112612" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;Tutorials/CPP/OOP/oop1.cpp&apos; to &apos;Car.cpp&apos;" description="Rename resource &apos;oop1.cpp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="CPP/OOP/oop1.cpp" name="Car.cpp" stamp="1687254847400" updateReferences="true"/>
+</session>

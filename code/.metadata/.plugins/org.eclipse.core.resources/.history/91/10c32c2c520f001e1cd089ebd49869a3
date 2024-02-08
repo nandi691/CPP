@@ -1,0 +1,71 @@
+/*
+ * Basic Principles
+ * Abstraction
+ * Encapsulation
+ * Inheritance
+ * Polymorphism
+ */
+
+/*
+ * ABSTRACTION
+ * Focuses on important and necessary details
+ * Unwanted features are left out
+ * Helps Focus on important characteristics
+ *
+ */
+#include "Car.h"
+#include <iostream>
+
+Car::Car(){
+	fuel=0;
+	speed=0;
+	passengers=0;
+}
+void Car::FillFuel(float amount){
+	fuel = amount;
+}
+
+void Car::Accelerate(){
+	speed++;
+	fuel -= 0.5f;
+}
+
+void Car::Brake(){
+	speed = 0;
+}
+
+void Car::AddPassengers(int count){
+	passengers = count;
+}
+
+void Car::DashBoard(){
+	std::cout<<"Fuel: "<< fuel<<std::endl;
+	std::cout<<"Speed: "<< speed<<std::endl;
+	std::cout<<"Passengers: "<< passengers<<std::endl;
+}
+
+int main()
+{
+	Car car;
+	car.FillFuel(10);
+	car.Accelerate();
+	car.Accelerate();
+	car.Accelerate();
+	car.Accelerate();
+	car.Accelerate();
+	car.Accelerate();
+	car.DashBoard();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

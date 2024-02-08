@@ -1,0 +1,8 @@
+/*
+ *
+ * Additional and removal at both ends
+ * Grows automatically
+ * Provides random access
+ * Not good for insertion/deletion
+ *
+ */

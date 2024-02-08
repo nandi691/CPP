@@ -1,0 +1,85 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <memory.h>
+#include "common.h"
+
+#define DEST_PORT            2000
+#define SERVER_IP_ADDRESS   "127.0.0.1"
+
+test_struct_t client_data;
+result_struct_t result;
+
+void
+setup_tcp_communication(){
+
+    int sockfd = 0,
+        sent_recv_bytes = 0;
+
+    int addr_len = 0;
+
+    addr_len = sizeof(struct sockaddr);
+
+    struct sockaddr_in dest;
+
+    dest.sin_family = AF_INET;
+
+    dest.sin_port = DEST_PORT;
+    struct hostent *host = (struct hostent *)gethostbyname(SERVER_IP_ADDRESS);
+    dest.sin_addr = *((struct in_addr *)host->h_addr);
+
+    sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+
+
+    connect(sockfd, (struct sockaddr *)&dest,sizeof(struct sockaddr));
+
+
+PROMPT_USER:
+
+	char str_[20];
+	printf("Enter a string");
+	fgets(str_,20,stdin);
+	int dataLen = strlen((const char *)str_);
+    sent_recv_bytes = sendto(sockfd,
+    	   &dataLen,
+           2,
+           0,
+           (struct sockaddr *)&dest,
+           sizeof(struct sockaddr));
+
+    printf("No of bytes sent = %d\n", sent_recv_bytes);
+
+    sent_recv_bytes = sendto(sockfd,
+    		   str_,
+			   dataLen,
+               0,
+               (struct sockaddr *)&dest,
+               sizeof(struct sockaddr));
+
+     printf("No of bytes sent2 = %d\n", sent_recv_bytes);
+#if 0
+    /*Step 6 : Client also want to reply from server after sending data*/
+
+    /*recvfrom is a blocking system call, meaning the client program will not run past this point
+     * untill the data arrives on the socket from server*/
+    sent_recv_bytes =  recvfrom(sockfd, (char *)&result, sizeof(result_struct_t), 0,
+                    (struct sockaddr *)&dest, &addr_len);
+
+    printf("No of bytes recvd = %d\n", sent_recv_bytes);
+
+    printf("Result recvd = %u\n", result.c);
+    /*Step 7: Client would want to send the data again to the server, go into infinite loop*/
+#endif
+    goto PROMPT_USER;
+}
+
+
+int
+main(int argc, char **argv){
+
+    setup_tcp_communication();
+    printf("application quits\n");
+    return 0;
+}

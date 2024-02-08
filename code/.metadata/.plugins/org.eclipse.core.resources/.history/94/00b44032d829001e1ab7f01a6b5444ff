@@ -1,0 +1,11 @@
+//Guru Basava Lingaya Namaha
+//Dasoha Programming
+
+#include "Utility.h"
+
+int main()
+{
+	using namespace std;
+	cout<<"Nitya Dasoha Management Program"<<endl;
+	return 0;
+}

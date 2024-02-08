@@ -1,0 +1,36 @@
+/*
+ * Lambda Expressions
+ * defines function object
+ * Syntactic shortcut for function object
+ * nameless function object
+ *
+ *
+ * [] (<args>)  // [] -> Lambda introducer
+ * {
+ *
+ * }
+ */
+
+#include <iostream>
+
+int main()
+{
+	[](){
+		std::cout<<"This is a lambda expression"<<std::endl;
+	}();
+
+	auto fn = [](){
+		std::cout<<"This is a lambda expression with fn"<<std::endl;
+	};
+	fn();
+
+	std::cout<<typeid(fn).name()<<std::endl;
+	return 0;
+}
+
+/*
+ * This is a lambda expression
+This is a lambda expression with fn
+Z4mainEUlvE0_
+ *
+ */

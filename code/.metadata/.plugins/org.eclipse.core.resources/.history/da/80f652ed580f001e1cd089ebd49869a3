@@ -1,0 +1,13 @@
+#ifndef INTEGER_H
+#define INTEGER_H
+class Integer{
+	int *m_pInt;
+
+public:
+	Integer();
+	Integer(int value);
+	~Integer();
+
+
+};
+#endif

@@ -1,0 +1,181 @@
+#include "Dasoha.h"
+
+std::string g_Weekday[7]= {"Sunday",
+				"Monday",
+				"Tuesday",
+				"Wednesday",
+				"Thursday",
+				"Friday",
+				"Saturday"};
+
+#define TODAYS_SLOT "/todays_slot"
+#define TOMORROW_SLOT "/tomorrows_slot"
+#define BOOK_A_SLOT "/book_a_slot"
+#define SLOTS_FOR_THE_WEEK "/slots_for_the_week"
+#define SLOTS_FOR_THE_MONTH "/slots_for_the_month"
+#define SLOTS_FOR_THE_DAY "/slot_for_the_day"
+#define DONATE "/donate"
+
+Dasoha::Dasoha()
+{
+	m_botCfg = new BotConfig;
+	m_offset = 1;
+	m_senderID = 1;
+
+	m_options = "Options are :\n\n";
+	m_options += "To view todays slot : \n";
+	m_options += (TODAYS_SLOT + std::string("\n\n"));
+	m_options += "To view tomorrows slot : \n";
+	m_options += (TOMORROW_SLOT + std::string("\n\n"));
+	m_options += "To view slot for week : \n";
+	m_options += (SLOTS_FOR_THE_WEEK + std::string("\n\n"));
+	m_options += "To view slot for month : \n";
+	m_options += (SLOTS_FOR_THE_MONTH + std::string("\n\n"));
+	m_options += "To view slot for a day : \n";
+	m_options += (SLOTS_FOR_THE_DAY + std::string("\n\n"));
+	m_options += "To book a slot : \n";
+	m_options += (BOOK_A_SLOT + std::string("\n\n"));
+	m_options += "To Donate : \n";
+	m_options += (DONATE + std::string("\n\n"));
+}
+
+Dasoha::~Dasoha()
+{
+	delete m_botCfg;
+	m_botCfg = nullptr;
+}
+
+void Dasoha::Init()
+{
+
+	using namespace std;
+	ReadBotConfig();
+	std::cout<<"All the best"<<std::endl;
+	while(1){
+		//Main While loop to receive inputs and send response
+		sleep(0);
+		if(!ReadData())
+				continue;
+		if(m_data.find("/") != string::npos)
+		{
+			ProcessCommand();
+			continue;
+		}
+		if(m_data != "Hi")
+		{
+			SendToBot("I will respond only to \"Hi\"");
+			continue;
+		}
+		SendToBot(m_options);
+	}
+}
+
+void Dasoha::ProcessCommand()
+{
+	using namespace std;
+	SendToBot("Please wait until your request is processed...");
+	tm *local_time = GetLocalTime();
+
+	cout<<m_data<<endl;
+	if(m_data == "/todays_slot")
+	{
+		//Add handler
+	}
+	else if(m_data == "/tomorrows_slot")
+	{
+			//Add handler
+	}
+	else if(m_data == "/book_a_slot")
+	{
+			//Add handler
+	}
+	else if(m_data == "/slots_for_the_week")
+	{
+			//Add handler
+	}
+	else if(m_data == "/slots_for_the_month")
+	{
+			//Add handler
+	}
+	else if(m_data == "/slots_for_the_day")
+	{
+			//Add handler
+	}
+	else if(m_data == "/donate")
+	{
+			//Add handler
+	}
+	else
+	{
+		//SendToBot();
+		SendToBot("Invalid request \n\n"+m_options);
+	}
+
+
+
+}
+
+void Dasoha::ReadBotConfig()
+{
+	Json::Value root;
+	if(ParseFile(root,BOT_CFG_FILE)	== false)
+	{
+		cout<<"bot config file parse failed"<<endl;
+		exit(0);
+	}
+
+	m_botCfg->botID = root[0]["BotID"].asString();
+	m_botCfg->botToken = root[0]["BotToken"].asString();
+	m_botCfg->msgID = root[0]["MessageID"].asString();
+	m_botCfg->name = root[0]["Name"].asString();
+}
+
+void Dasoha::SendToBot(std::string data)
+{
+	data = ::UrlEncode(data);
+	std::string url = "https://api.telegram.org/bot"+m_botCfg->botID+":"+m_botCfg->botToken+"/sendMessage?chat_id="+
+		m_senderID+"&&text="+data;
+	std::string response;
+	::SendCurlData(url,response);
+}
+
+bool Dasoha::ReadData()
+{
+	std::string url = "https://api.telegram.org/bot"+m_botCfg->botID+":"+m_botCfg->botToken+"/getUpdates?offset="+to_string(m_offset)+"?limit=1";
+	Json::Value root;
+	m_botData.clear();
+	::SendCurlData(url,m_botData);
+	m_data.clear();
+	m_senderID = 1;
+	if(::ParseString(root,m_botData))
+	{
+		for (const Json::Value& text : root["result"])
+		{
+			m_offset=text["update_id"].asInt()+1;
+			m_data = text["message"]["text"].asString();
+			m_senderID = text["message"]["from"]["id"].asString();
+			m_senderName = text["message"]["from"]["first_name"].asString();
+		}
+	}
+	std::cout<<m_senderID<<std::endl;
+	return (m_data != "");
+}
+
+
+/*DasohaKartha::DasohaKartha()
+{
+	name="";
+	date = 0;
+	month = 0;
+	year = 0;
+	address = "";
+}*/
+
+DasohaKartha::DasohaKartha(const std::string &name,int date,int month ,int year,const std::string &address)
+{
+	this->m_name = name;
+	this->m_date = date;
+	this->m_month = month;
+	this->m_year = year;
+	this->m_address = address;
+}

@@ -1,0 +1,7 @@
+19:38:03 **** Build of configuration Build (GNU) for project Blockchain ****
+make all 
+make: *** No rule to make target 'all'.  Stop.
+"make all" terminated with exit code 2. Build might be incomplete.
+
+19:38:03 Build Finished. 0 errors, 0 warnings. (took 334ms)
+

@@ -1,0 +1,55 @@
+Blockchain is a disruptive technology
+internet-> Communication
+Blockchain -> trust
+
+Satoshi - Invented bitcoin - 2008 - he gave trust environment
+
+Stuar Haber , W. Scott Stornetta - How to digitally timestamp a document?
+Blockchain and Bitcoin are different
+
+immutable -> Cannot be deleted or reversed.
+distributed -> Updated in every system
+Crypt -> Secret Code
+Decentralised of system
+Blockchain -> distributed , immutable  ledger and transparent
+
+============
+Applications
+============
+
+Product tracking
+Smart Contract - Program that runs on ethereum block chain
+Inernational wire transfer
+Hospital Record
+
+---------------------------
+Byzantine Generals Problem:
+---------------------------
+
+Distributed Systems - Problem is that central authority is not there.
+Nodes can be malfunctioned.
+
+Miguel Castro
+
+Go by majority
+
+Byzantine fault tolerance
+
+
+Hashing Algorithm
+Immutable Ledger
+Mining
+Distributed P2P
+
+Consenses Protocol:
+Proof of Work (POW)
+Proof of stake (POS)
+Others
+
+Prevent Attack
+
+Competing chain Problem
+Longest chain will be valid
+
+
+

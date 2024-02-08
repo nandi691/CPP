@@ -1,0 +1,49 @@
+#ifndef SOCKET_WRAPPER_H
+#define SOCKET_WRAPPER_H
+
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <sys/un.h>
+#include <unistd.h>
+#include <list>
+
+#define SOCKET_NAME "/tmp/RTSocket"
+#define BUFFER_SIZE 2048
+//#define MAX_CLIENT_SUPPORTED    32
+
+class UnixSocket{
+private:
+	//static int m_fd_set[MAX_CLIENT_SUPPORTED];
+	static std::list<int> m_fd_set; // Let us use List instead of array
+	static void InitFDSet();
+	int m_commFD; //TBD : This may not be required as we will have this as 1st element of list
+
+	//Socket Related Operations
+	int CreateSocket();
+	int Bind() const;
+	int Listen(int) const;
+	//int Connect();
+
+public:
+	UnixSocket(); //Constructor
+	virtual ~UnixSocket(); //Destructor
+	UnixSocket(const UnixSocket& obj); //Copy Constructor
+	UnixSocket(UnixSocket&& obj); //Move Constructor
+	UnixSocket & operator =(const UnixSocket& obj); //Copy Assignment operator
+
+	//FD Related operations
+	static void AddToFDSet(int);
+	static void RemoveFromFDSet(int);
+	static void RefreshFDSet();
+	static int GetMaxFD() const;
+
+	//Socket Related Operations
+	void HandleNewConnection();
+	void HandleData();
+
+
+};
+#endif

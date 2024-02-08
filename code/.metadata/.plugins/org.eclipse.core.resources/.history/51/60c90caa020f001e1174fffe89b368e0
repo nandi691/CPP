@@ -1,0 +1,14 @@
+#include <iostream>
+
+using namespace std;
+int Max(int x, int y)
+{
+	return x >y ? x:y;
+}
+
+int main()
+{
+	auto num = Max(3,8);
+	cout<<num<<endl;
+	return 0;
+}

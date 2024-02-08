@@ -1,0 +1,43 @@
+//Developed by Alexander Stepenov and Meng Lee at HP
+
+/*
+ * CORE COMPONENTS
+ *
+ * Container Classes - data
+ * Algorithms - operations
+ * Iterators - glue b/w container and algorithm
+ *
+ *
+ * Why STL
+ *
+ * Reliable
+ * Portable
+ * Efficient and fast
+ * Accurate
+ * Readable code
+ * Low maintenance cost
+ *
+ * Common Functions :
+ * Default constructor
+ * uniform initialization constructor
+ * Copy Constructor
+ * iterator Constructor
+ * size()
+ * clear()
+ * begin()
+ * end()
+ * default allocator - Class used by all container to manage memory
+ *
+ */
+
+/*
+ * Container Types
+ * Sequence - array , vector , list , deque , forward_list
+ * Associative - set, multiset , map , multimap
+ * Unordered - set, multiset , map , multimap
+ *
+ */
+
+
+
+

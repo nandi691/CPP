@@ -1,0 +1,19 @@
+#include "Dasoha.h"
+
+Dasoha::Dasoha()
+{
+	m_botCfg = new BotConfig;
+	m_offset = 1;
+	m_senderID = 1;
+}
+
+Dasoha::~Dasoha()
+{
+	delete m_botCfg;
+	m_botCfg = nullptr;
+}
+
+void Dasoha::Init()
+{
+
+}

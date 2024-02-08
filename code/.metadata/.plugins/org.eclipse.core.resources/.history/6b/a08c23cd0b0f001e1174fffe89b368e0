@@ -1,0 +1,29 @@
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+template <typename T>
+T Max(T x,T y){
+	//cout<<typeid(T).name()<<endl;
+	return x >y ? x:y;
+}
+
+template char Max(char x, char y); //Explicit instantiation
+
+//Explicit specialization
+template<> const char * Max<const char *>(const char * x, const char * y){
+	cout<<"Explicit Specialization"<<endl;
+	return strcmp(x,y) > 0?x:y;
+}
+//This should not be defined in header file as it is already instantiated
+
+int main()
+{
+	const char *b {"B"};
+	const char *a {"A"};
+	auto s = Max(a,b);
+	cout<<s<<endl; // This will show "A" w/o Explicit specialization, which is wrong
+	//Max considered address rather than char so it gave wrong answers
+	return 0;
+}

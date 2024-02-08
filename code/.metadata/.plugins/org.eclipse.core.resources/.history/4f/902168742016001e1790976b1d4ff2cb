@@ -1,0 +1,16 @@
+#include <iostream>
+
+class MyClass{
+public:
+	int m_var;
+};
+
+MyClass::MyClass()
+{
+	m_var = 10;
+}
+
+int main(){
+	//int arr[] {12,5,0,3,1};
+
+}

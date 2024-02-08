@@ -1,0 +1,17 @@
+#ifndef INTEGER_H
+#define INTEGER_H
+class Integer{
+	int *m_pInt{};
+
+public:
+	Integer();
+	Integer(int value);
+	Integer(Integer &obj);//Copy Constructor
+	//If passed by value another copy would be created and it will be loop
+	//hence obj must be passed by reference
+	~Integer();
+
+	int GetValue() const;
+	void SetValue(int val);
+};
+#endif

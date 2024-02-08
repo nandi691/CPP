@@ -1,0 +1,18 @@
+  716  g++ Diary.cpp Utility.cpp -o diary -lcurl -ljsoncpp
+  717  sudo yum install curl-devel
+  718  g++ Diary.cpp Utility.cpp -o diary -lcurl -ljsoncpp
+  719  sudo yum -y install jsoncpp-devel
+  720  sudo yum -y install jsoncpp-dev
+  721  sudo yum -y install epel-release
+  722  sudo yum -y install jsoncpp-devel
+  723  g++ Diary.cpp Utility.cpp -o diary -lcurl -ljsoncpp
+  724  yum info jsoncpp-devel
+  725  g++ Diary.cpp Utility.cpp -o diary -lcurl -ljsoncpp
+  726  cd /
+  727  find . -name jsoncpp
+  728  cd -
+  729  g++ Diary.cpp Utility.cpp -o diary -lcurl -ljsoncpp
+  730  ./diary 
+  731  vi botconfig.cfg 
+  732  history
+

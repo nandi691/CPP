@@ -1,0 +1,22 @@
+/*
+ * Lambda Expressions
+ * defines function object
+ * Syntactic shortcut for function object
+ * nameless function object
+ *
+ *
+ * [] (<args>)  // [] -> Lambda introducer
+ * {
+ *
+ * }
+ */
+
+#include <iostream>
+
+int main()
+{
+	[](){
+		std::cout<<"This is a lambda expression"<<std::endl;
+	}();
+	return 0;
+}

@@ -1,0 +1,361 @@
+#include "Dasoha.h"
+
+std::string g_Weekday[7]= {"Sunday",
+				"Monday",
+				"Tuesday",
+				"Wednesday",
+				"Thursday",
+				"Friday",
+				"Saturday"};
+
+#define TODAYS_SLOT "/todays_slot"
+#define TOMORROW_SLOT "/tomorrows_slot"
+#define BOOK_A_SLOT "/book_a_slot"
+#define SLOTS_FOR_THE_WEEK "/slots_for_the_week"
+#define SLOTS_FOR_THE_MONTH "/slots_for_the_month"
+#define SLOTS_FOR_THE_DAY "/slot_for_the_day"
+#define DONATE "/donate"
+#define FILE_NAME "/opt/data/Booking_"
+#define FILE_EXT ".json"
+
+#define SLOT_IS_AVAILABLE 0x1001
+#define SLOT_IS_NOT_AVAILABLE 0x1002
+#define PARSING_ERROR 0x1003
+#define STATUS_FAIL 0x1004
+
+#define TIMEOUT 60
+
+Dasoha::Dasoha()
+{
+	m_botCfg = new BotConfig;
+	m_offset = 1;
+	m_senderID = 1;
+
+	m_options = "Options are :\n\n";
+	m_options += "To view todays slot : \n";
+	m_options += (TODAYS_SLOT + std::string("\n\n"));
+	m_options += "To view tomorrows slot : \n";
+	m_options += (TOMORROW_SLOT + std::string("\n\n"));
+	m_options += "To view slot for week : \n";
+	m_options += (SLOTS_FOR_THE_WEEK + std::string("\n\n"));
+	m_options += "To view slot for month : \n";
+	m_options += (SLOTS_FOR_THE_MONTH + std::string("\n\n"));
+	m_options += "To view slot for a day : \n";
+	m_options += (SLOTS_FOR_THE_DAY + std::string("\n\n"));
+	m_options += "To book a slot : \n";
+	m_options += (BOOK_A_SLOT + std::string("\n\n"));
+	m_options += "To Donate : \n";
+	m_options += (DONATE + std::string("\n\n"));
+}
+
+Dasoha::~Dasoha()
+{
+	delete m_botCfg;
+	m_botCfg = nullptr;
+}
+
+void Dasoha::Init()
+{
+
+	using namespace std;
+	ReadBotConfig();
+	std::cout<<"All the best"<<std::endl;
+	while(1){
+		//Main While loop to receive inputs and send response
+		sleep(0);
+		if(!ReadData())
+				continue;
+		if(m_data.find("/") != string::npos)
+		{
+			ProcessCommand();
+			continue;
+		}
+		if(m_data != "Hi")
+		{
+			SendToBot("I will respond only to \"Hi\"");
+			continue;
+		}
+		SendToBot(m_options);
+	}
+}
+
+void Dasoha::ProcessCommand()
+{
+	using namespace std;
+	SendToBot("Please wait until your request is processed...");
+	tm *local_time = GetLocalTime();
+	if(m_data == "/todays_slot")
+	{
+		//Add handler
+	}
+	else if(m_data == "/tomorrows_slot")
+	{
+			//Add handler
+	}
+	else if(m_data == "/book_a_slot")
+	{
+			BookSlot();
+	}
+	else if(m_data == "/slots_for_the_week")
+	{
+			//Add handler
+	}
+	else if(m_data == "/slots_for_the_month")
+	{
+			//Add handler
+	}
+	else if(m_data == "/slots_for_the_day")
+	{
+			GetSlotForTheDay();
+	}
+	else if(m_data == "/donate")
+	{
+			//Add handler
+	}
+	else
+	{
+		//SendToBot();
+		SendToBot("Invalid request \n\n"+m_options);
+	}
+
+
+
+}
+
+void Dasoha::ReadBotConfig()
+{
+	Json::Value root;
+	if(ParseFile(root,BOT_CFG_FILE)	== false)
+	{
+		cout<<"bot config file parse failed"<<endl;
+		exit(0);
+	}
+
+	m_botCfg->botID = root[0]["BotID"].asString();
+	m_botCfg->botToken = root[0]["BotToken"].asString();
+	m_botCfg->msgID = root[0]["MessageID"].asString();
+	m_botCfg->name = root[0]["Name"].asString();
+}
+
+void Dasoha::SendToBot(std::string data)
+{
+	data = ::UrlEncode(data);
+	std::string url = "https://api.telegram.org/bot"+m_botCfg->botID+":"+m_botCfg->botToken+"/sendMessage?chat_id="+
+		m_senderID+"&&text="+data;
+	std::string response;
+	::SendCurlData(url,response);
+}
+
+bool Dasoha::ReadData()
+{
+	std::string url = "https://api.telegram.org/bot"+m_botCfg->botID+":"+m_botCfg->botToken+"/getUpdates?offset="+to_string(m_offset)+"?limit=1";
+	Json::Value root;
+	m_botData.clear();
+	::SendCurlData(url,m_botData);
+	m_data.clear();
+	m_senderID = 1;
+	if(::ParseString(root,m_botData))
+	{
+		for (const Json::Value& text : root["result"])
+		{
+			m_offset=text["update_id"].asInt()+1;
+			m_data = text["message"]["text"].asString();
+			m_senderID = text["message"]["from"]["id"].asString();
+			m_senderName = text["message"]["from"]["first_name"].asString();
+		}
+	}
+	return (m_data != "");
+}
+
+DasohaKartha::DasohaKartha(const std::string &name,int date,int month ,int year,const std::string &address, const std::string &phn)
+{
+	this->m_name = name;
+	this->m_date = date;
+	this->m_month = month;
+	this->m_year = year;
+	this->m_address = address;
+	this->m_phn_num = phn;
+}
+
+DasohaKartha::~DasohaKartha()
+{
+
+}
+
+int Dasoha::GetMonthNumber()
+{
+	int month = GetLocalTime()->tm_mon + 1;
+	if(m_data == "/this_month")
+	{
+		return month;
+	}
+	else if (m_data == "/next_month")
+	{
+		if(month == 12)
+			month = 0;
+		return month+1;
+	}
+	return 0;
+
+}
+
+void Dasoha::WaitForData()
+{
+	tm *local_time = GetLocalTime();
+	int localTime = (int)time(NULL);
+	while(!ReadData())
+	{
+		if((int)time(NULL)-localTime > TIMEOUT)
+		{
+			SendToBot("Closing this session. Please ping Hi Again");
+			return;
+		}
+		continue;
+	}
+}
+
+int Dasoha::ValidateDate(int month)
+{
+	if(!is_number(m_data)){
+		SendToBot("Invalid date string");
+		return 0;
+	}
+
+	int date = stoi(m_data);
+	if(!::IsItValidDateInMonth(date,month))
+	{
+		SendToBot("Invalid date for the month");
+		return 0;
+	}
+	return date;
+}
+
+void Dasoha::BookSlot()
+{
+	/*SendToBot("Checking the availability...");
+	SendToBot("Please select the month\n\n/this_month\n/next_month\n");
+	WaitForData();
+	int month = GetMonthNumber();
+	int year = GetLocalTime()->tm_year + 1900;
+	if(month == 0)
+	{
+		SendToBot("Invalid option selected");
+		return;
+	}
+
+	if (month == 1 && m_data == "/next_month")
+	{
+		year++;
+	}
+
+	SendToBot("Please Enter the date (1 to 30/31)");
+	WaitForData();
+	int date = ValidateDate(month);
+	if(date == 0)
+		return;*/
+	int date=0,year=0;
+	int slotSatus = GetSlotForTheDay(date,year);
+
+	if(slotSatus != SLOT_IS_AVAILABLE)
+	{
+		if(slotSatus == PARSING_ERROR)
+			SendToBot("File is corrupted");
+		else
+			SendToBot("Slot is not available");
+		return;
+	}
+
+	SendToBot("Slot is available\n\nPlease enter the Name\n");
+	WaitForData();
+	std::string name = m_data;
+
+	SendToBot("Please enter the Phone Number");
+	WaitForData();
+	std::string phn = m_data;
+
+	SendToBot("Please enter the Address");
+	WaitForData();
+	std::string address = m_data;
+
+	DasohaKartha kartha(name,date,month,year,address,phn);
+	SaveCfg(&kartha);
+
+	SendToBot("Saved the entry successfully");
+	return;
+}
+
+void Dasoha::SaveCfg(DasohaKartha *kartha)
+{
+	if(kartha == NULL)
+	{
+		return;
+	}
+	std::string fileName = FILE_NAME + std::to_string(kartha->m_month)+
+			"_"+std::to_string(kartha->m_year)+std::string(FILE_EXT);
+
+	Json::Value event;
+	event["date"] = kartha->m_date;
+	event["name"] = kartha->m_name;
+	event["phn"] = kartha->m_phn_num;
+	event["address"] = kartha->m_address;
+	Json::FastWriter fastWriter;
+	std::string data = "";
+	if(IsFileExists(fileName.c_str()))
+		data=",";
+
+	data += fastWriter.write(event);
+	WriteToFile(fileName,data);
+	return;
+}
+
+
+int Dasoha::GetSlotAvailableStatus(int date,int month,int year)
+{
+	std::string fileName = FILE_NAME + std::to_string(month)+
+				"_"+std::to_string(year)+std::string(FILE_EXT);
+
+	if(!IsFileExists(fileName.c_str()))
+	{
+		return SLOT_IS_AVAILABLE;
+	}
+
+	Json::Value jsonObj;
+	if(!ParseFile(jsonObj,fileName))
+	{
+		return PARSING_ERROR;
+	}
+
+	for(const Json::Value & value : jsonObj)
+	{
+			if (date == value["date"].asInt())
+			{
+				return SLOT_IS_NOT_AVAILABLE;
+			}
+	}
+	return SLOT_IS_AVAILABLE;
+}
+
+int Dasoha::GetSlotForTheDay(int &month,int & year)
+{
+	SendToBot("Please select the month\n\n/this_month\n/next_month\n");
+	WaitForData();
+	month = GetMonthNumber();
+	year = GetLocalTime()->tm_year + 1900;
+	if(month == 0)
+	{
+		SendToBot("Invalid option selected");
+		return STATUS_FAIL;
+	}
+
+	if (month == 1 && m_data == "/next_month")
+	{
+		year++;
+	}
+
+	SendToBot("Please Enter the date (1 to 30/31)");
+	WaitForData();
+	int date = ValidateDate(month);
+	if(date == 0)
+		return STATUS_FAIL;
+	return GetSlotAvailableStatus(date,month,year);
+}

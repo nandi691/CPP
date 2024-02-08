@@ -1,0 +1,26 @@
+#ifndef DASOHA_H_
+#define DASOHA_H_
+
+#include "Utility.h"
+
+#define BOT_CFG_FILE "/home/nksys/SeaMyCode/Telegram/Diary/botconfig.cfg"
+
+std::string g_Weekday[7]= {"Sunday",
+				"Monday",
+				"Tuesday",
+				"Wednesday",
+				"Thursday",
+				"Friday",
+				"Saturday"};
+struct BotConfig
+{
+	std::string botID;
+	std::string botToken;
+	std::string msgID;
+	std::string name;
+};
+
+class Dasoha{
+
+};
+#endif

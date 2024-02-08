@@ -1,0 +1,27 @@
+#ifndef SOCKET_WRAPPER_H
+#define SOCKET_WRAPPER_H
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <sys/un.h>
+#include <unistd.h>
+
+#define SOCKET_NAME "/tmp/RTSocket"
+#define BUFFER_SIZE 2048
+#define MAX_CLIENT_SUPPORTED    32
+
+class UnixSocket{
+private:
+	int m_fd_set[MAX_CLIENT_SUPPORTED];
+
+public:
+	UnixSocket();
+	~UnixSocket();
+	UnixSocket(const UnixSocket& obj);
+	UnixSocket(UnixSocket&& obj);
+	UnixSocket & UnixSocket(const UnixSocket& obj);
+
+};
+#endif

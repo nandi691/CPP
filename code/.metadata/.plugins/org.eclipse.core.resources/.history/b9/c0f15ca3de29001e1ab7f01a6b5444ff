@@ -1,0 +1,42 @@
+#include "Dasoha.h"
+
+std::string g_Weekday[7]= {"Sunday",
+				"Monday",
+				"Tuesday",
+				"Wednesday",
+				"Thursday",
+				"Friday",
+				"Saturday"};
+
+Dasoha::Dasoha()
+{
+	m_botCfg = new BotConfig;
+	m_offset = 1;
+	m_senderID = 1;
+}
+
+Dasoha::~Dasoha()
+{
+	delete m_botCfg;
+	m_botCfg = nullptr;
+}
+
+void Dasoha::Init()
+{
+	std::cout<<"All the best"<<std::endl;
+}
+
+void Dasoha::ReadBotConfig()
+{
+	Json::Value root;
+	if(ParseFile(root,BOT_CFG_FILE)	== false)
+	{
+		cout<<"bot config file parse failed"<<endl;
+		exit(0);
+	}
+
+	m_botCfg->botID = root[0]["BotID"].asString();
+	m_botCfg->botToken = root[0]["BotToken"].asString();
+	m_botCfg->msgID = root[0]["MessageID"].asString();
+	m_botCfg->name = root[0]["Name"].asString();
+}

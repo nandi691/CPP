@@ -1,0 +1,82 @@
+//Function object , object of class having function call operator overloading
+#include <iostream>
+
+using Comparator = bool(*)(int,int);
+
+template <typename T, int size, typename Comparator>
+void Sort(T(&arr)[size], Comparator comp){
+	for(int i =0; i<size-1;++i){
+		for(int j =0; j<size-1;++j)
+		{
+			if(comp(arr[j],arr[j+1])){
+				T temp = std::move(arr[j]);
+				arr[j] = std::move(arr[j+1]);
+				arr[j+1] = std::move(temp);
+			}
+		}
+	}
+}
+
+
+template <typename T, int size, typename Callback>
+void ForEach(T(&arr)[size], Callback operation){
+	for (int i =0;i<size;++i){
+		operation(arr[i]); // This function can be anything
+	}
+}
+int main()
+{
+	int arr[] {12,5,0,1,2};
+	for (auto x:arr){
+		std::cout<<x<<" " ;
+	}
+	std::cout<<std::endl ;
+
+	Sort(arr,[](auto x, auto y){  //Lambda function is used
+		return x > y;
+	});
+	for (auto x:arr){
+			std::cout<<x<<" " ;
+		}
+		std::cout<<std::endl ;
+
+	auto comp = [](auto x, auto y){
+		return x < y;
+	};
+	Sort(arr,comp); //
+	for (auto x:arr){
+				std::cout<<x<<" " ;
+			}
+			std::cout<<std::endl ;
+
+	auto print = [](auto x){
+		std::cout<<x<<" ";
+	};
+
+	auto addOffset10  = [](auto &x){
+		x += 10;
+	};
+	ForEach(arr,print); //Function object just to print
+	std::cout<<std::endl ;
+	ForEach(arr,addOffset10);  //Function object to add offset of 10
+	std::cout<<"After adding offset"<<std::endl;
+	ForEach(arr,print);
+	std::cout<<std::endl ;
+
+	int offset = 5;
+	auto addOffset  = [offset](auto &x){
+			x += offset; //Value is copied from int offset = 5;
+			//++offset//Capture by copy, variable cannot be modified. As it is read only
+			//use mutable keyword to do this operation
+	};
+
+	auto addOffset_  = [offset](auto &x) mutable{ //This will remove constness
+				x += offset;
+				++offset;
+	}
+	ForEach(arr,addOffset);
+
+	ForEach(arr,print);
+	std::cout<<std::endl ;
+}
+

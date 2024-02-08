@@ -1,0 +1,110 @@
+/*
+ * Basic Principles
+ * Abstraction
+ * Encapsulation
+ * Inheritance
+ * Polymorphism
+ */
+
+/*
+ * ABSTRACTION
+ * Focuses on important and necessary details
+ * Unwanted features are left out
+ * Helps Focus on important characteristics
+ *
+ */
+
+/*
+ * Class and struct both are same except for default access
+ * Class - Private
+ * Struct - Public
+ */
+
+
+/*
+ * This pointer - hidden pointer passed to member function
+ * Points to object that invoked the member function
+ * compiler internally uses this pointer
+ */
+#include "Car.h"
+#include <iostream>
+
+int Car::totalcount = 0;
+
+Car::Car(){
+	/*fuel=0;
+	speed=0;
+	passengers=0;*/
+	std::cout<<"Default constructor is invoked"<<std::endl;
+	++totalcount;
+}
+
+
+Car::Car(float fuel_){
+	++totalcount;
+	this->fuel = fuel_;
+	/*speed = 0;
+	passengers = 0;*/
+	std::cout<<"Parameterized constructor"<<std::endl;
+}
+Car::~Car()
+{
+	--totalcount;
+	std::cout<<"Destructor is invoked"<<std::endl;
+}
+void Car::FillFuel(float amount){
+	fuel = amount;
+}
+
+void Car::Accelerate(){
+	speed++;
+	fuel -= 0.5f;
+}
+
+void Car::Brake(){
+	speed = 0;
+}
+
+void Car::AddPassengers(int passengers){
+	//This pointer usage
+	//Differentiate b/w class member variable and local variable
+	this->passengers = passengers;
+}
+
+void Car::DashBoard(){
+	std::cout<<"Fuel: "<< fuel<<std::endl;
+	std::cout<<"Speed: "<< speed<<std::endl;
+	std::cout<<"Passengers: "<< passengers<<std::endl;
+	std::cout<<"TotalCount "<<totalcount<<std::endl;
+}
+
+int main()
+{
+	Car car;
+	car.FillFuel(10);
+	car.Accelerate();
+	car.Accelerate();
+	car.Accelerate();
+	car.Accelerate();
+	car.Accelerate();
+	car.Accelerate();
+	car.DashBoard();
+
+	Car c(6);
+	c.DashBoard();
+	Car c2(9);
+	c2.DashBoard();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

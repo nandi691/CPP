@@ -1,0 +1,24 @@
+#include "Integer.h"
+#include <iostream>
+
+/*
+ * 	Integer();
+	Integer(int value);
+	~Integer();
+
+	int GetValue() const;
+	void SetValue(int val);
+ */
+
+Integer::Integer(){
+
+}
+
+Integer::Integer(int value){
+
+}
+
+Integer::~Integer(){
+
+}
+

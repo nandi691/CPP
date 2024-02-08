@@ -1,0 +1,8 @@
+#include <iostream>
+int main()
+{
+	int arr[] {12,5,0,1,2};
+	for (auto x:arr){
+		std::cout<<x<<std::endl;
+	}
+}

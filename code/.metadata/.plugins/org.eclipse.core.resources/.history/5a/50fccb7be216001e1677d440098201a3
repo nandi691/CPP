@@ -1,0 +1,8 @@
+/*
+ * Thin wrapper over C- Stlye static array
+ * Knows about its size
+ * provides random access
+ * Can be used with C Functions
+ * Cannot grow
+ *
+ */

@@ -1,0 +1,22 @@
+#ifndef ROUTING_TABLE_H
+#define ROUTING_TABLE_H
+
+#include <iostream>
+
+enum Opcodes{
+	CREATE,
+	UPDATE,
+	DELETE
+};
+
+typedef struct RoutingTableRow{
+	char * m_IPv4Address;
+	char * m_netMask;
+	char * m_gatewayIP;
+	char * m_interface;
+}RT;
+
+class RoutingTable{
+
+};
+#endif
